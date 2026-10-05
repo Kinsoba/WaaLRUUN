@@ -259,16 +259,19 @@
   let targetPos = { x: 0, y: 0 };
   let isTouching = false;
 
-  // 速度の計算（徐々に加速）
-  const getWallSpeed = () => 15 + elapsedTime * 1.1;
+  // 速度の計算（上限値を高めの 45.0 に設定）
+  const getWallSpeed = () => {
+    const BASE_SPEED = 15.0;
+    const MAX_SPEED = 45.0; // 速度の限界値を少し高めに設定
+    return Math.min(MAX_SPEED, BASE_SPEED + elapsedTime * 1.25);
+  };
 
   // 壁の間隔（距離）の計算
   const getWallDistance = () => {
-    const BASE_DISTANCE = 18.0;  // 初期の間隔距離
-    const MAX_DISTANCE = 24.0;   // 間隔の限界値（これ以上広がらない上限）
-    const GROWTH_RATE = 0.1;     // 1秒あたりの距離増加量（広がり幅を抑える）
+    const BASE_DISTANCE = 16.0;  // 初期の間隔距離
+    const MAX_DISTANCE = 20.0;   // 間隔の限界値を引き下げ（前: 24.0 -> 20.0）
+    const GROWTH_RATE = 0.08;    // 時間経過による増加幅
 
-    // 計算値と限界値(MAX_DISTANCE)のうち小さい方を採用
     return Math.min(MAX_DISTANCE, BASE_DISTANCE + elapsedTime * GROWTH_RATE);
   };
 
