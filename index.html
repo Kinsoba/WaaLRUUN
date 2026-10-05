@@ -263,7 +263,7 @@
   const getWallSpeed = () => {
     const BASE_SPEED = 15.0;
     const MAX_SPEED = 1000.0; // 速度の限界値を少し高めに設定
-    return Math.min(MAX_SPEED, BASE_SPEED + elapsedTime * 0.875);
+    return Math.min(MAX_SPEED, BASE_SPEED + elapsedTime * 0.6);
   };
 
   // 壁の間隔（距離）の計算
