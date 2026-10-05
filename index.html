@@ -270,7 +270,7 @@
   const getWallDistance = () => {
     const BASE_DISTANCE = 16.0;  // 初期の間隔距離
     const MAX_DISTANCE = 30.0;   // 間隔の限界値を引き下げ（前: 24.0 -> 20.0）
-    const GROWTH_RATE = 0.2;    // 時間経過による増加幅
+    const GROWTH_RATE = 0.35;    // 時間経過による増加幅
 
     return Math.min(MAX_DISTANCE, BASE_DISTANCE + elapsedTime * GROWTH_RATE);
   };
