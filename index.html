@@ -263,12 +263,13 @@
   const getWallSpeed = () => 15 + elapsedTime * 1.1;
 
   // 壁の間隔（距離）の計算
-  // 速度が上がっても「次の壁が来るまでの到達時間(秒)」を徐々に縮めることで難易度をアップさせる
   const getWallDistance = () => {
-    const speed = getWallSpeed();
-    // 反応猶予時間: スタート時1.15秒 → 経過とともに最低0.6秒まで徐々に短縮
-    const intervalTime = Math.max(0.6, 1.15 - elapsedTime * 0.012);
-    return speed * intervalTime;
+    const BASE_DISTANCE = 18.0;  // 初期の間隔距離
+    const MAX_DISTANCE = 24.0;   // 間隔の限界値（これ以上広がらない上限）
+    const GROWTH_RATE = 0.1;     // 1秒あたりの距離増加量（広がり幅を抑える）
+
+    // 計算値と限界値(MAX_DISTANCE)のうち小さい方を採用
+    return Math.min(MAX_DISTANCE, BASE_DISTANCE + elapsedTime * GROWTH_RATE);
   };
 
   // --- 3. 初期化 ---
