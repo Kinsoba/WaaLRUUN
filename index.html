@@ -171,7 +171,6 @@
       this.ctx = null;
       this.isMuted = false;
       this.noteIndex = 0;
-      // メロディ音階パターン（高・低・中・高・低...）
       this.melodyNotes = [1046.50, 523.25, 880.00, 440.00, 783.99, 392.00, 659.25, 329.63];
     }
 
@@ -189,7 +188,6 @@
       this.noteIndex = 0;
     }
 
-    // 壁通過時の電子音（BGMフレーズ）
     playPass() {
       if (this.isMuted || !this.ctx) return;
 
@@ -213,7 +211,6 @@
       osc.stop(this.ctx.currentTime + 0.1);
     }
 
-    // クラッシュ音
     playCrash() {
       if (this.isMuted || !this.ctx) return;
 
@@ -249,7 +246,7 @@
   const PLAYER_SPEED = 24.0;
   const BOUNDS = 2.2;
 
-  const SPAWN_Z = -120; // 壁の生成開始位置
+  const SPAWN_Z = -120;
 
   let scene, camera, renderer, player;
   let walls = [];
@@ -262,11 +259,17 @@
   let targetPos = { x: 0, y: 0 };
   let isTouching = false;
 
-  // 速度の計算
-  const getWallSpeed = () => 14 + elapsedTime * 1.0;
+  // 速度の計算（徐々に加速）
+  const getWallSpeed = () => 15 + elapsedTime * 1.1;
 
-  // 速度に応じて壁の間隔（距離）を広げる計算
-  const getWallDistance = () => getWallSpeed() * 1.5;
+  // 壁の間隔（距離）の計算
+  // 速度が上がっても「次の壁が来るまでの到達時間(秒)」を徐々に縮めることで難易度をアップさせる
+  const getWallDistance = () => {
+    const speed = getWallSpeed();
+    // 反応猶予時間: スタート時1.15秒 → 経過とともに最低0.6秒まで徐々に短縮
+    const intervalTime = Math.max(0.6, 1.15 - elapsedTime * 0.012);
+    return speed * intervalTime;
+  };
 
   // --- 3. 初期化 ---
   function init() {
@@ -456,7 +459,7 @@
         }
       }
 
-      // --- 速度に応じて長くなる動的間隔での壁生成 ---
+      // --- 動的な壁生成 ---
       const lastWall = walls[walls.length - 1];
       const requiredDistance = getWallDistance();
       
@@ -486,7 +489,7 @@
           }
         }
 
-        // 通過判定（通り抜けるとメロディ音再生）
+        // 通過判定
         if (!wall.passed && wall.mesh.position.z > player.position.z + 0.5) {
           wall.passed = true;
           sound.playPass();
