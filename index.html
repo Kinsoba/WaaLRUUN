@@ -263,14 +263,14 @@
   const getWallSpeed = () => {
     const BASE_SPEED = 15.0;
     const MAX_SPEED = 1000.0; // 速度の限界値を少し高めに設定
-    return Math.min(MAX_SPEED, BASE_SPEED + elapsedTime * 1.75);
+    return Math.min(MAX_SPEED, BASE_SPEED + elapsedTime * 0.875);
   };
 
   // 壁の間隔（距離）の計算
   const getWallDistance = () => {
     const BASE_DISTANCE = 16.0;  // 初期の間隔距離
     const MAX_DISTANCE = 30.0;   // 間隔の限界値を引き下げ（前: 24.0 -> 20.0）
-    const GROWTH_RATE = 0.35;    // 時間経過による増加幅
+    const GROWTH_RATE = 0.175;    // 時間経過による増加幅
 
     return Math.min(MAX_DISTANCE, BASE_DISTANCE + elapsedTime * GROWTH_RATE);
   };
