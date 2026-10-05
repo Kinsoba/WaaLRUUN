@@ -261,8 +261,8 @@
 
   // 速度の計算（上限値を高めの 45.0 に設定）
   const getWallSpeed = () => {
-    const BASE_SPEED = 500.0;
-    const MAX_SPEED = 1000.0; // 速度の限界値を少し高めに設定
+    const BASE_SPEED = 200.0;
+    const MAX_SPEED = 200.0; // 速度の限界値を少し高めに設定
     return Math.min(MAX_SPEED, BASE_SPEED + elapsedTime * 0.6);
   };
 
